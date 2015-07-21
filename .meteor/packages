@@ -10,3 +10,4 @@ bootstrap
 accounts-password
 accounts-ui
 audit-argument-checks
+percolate:migrations

@@ -30,7 +30,7 @@ Meteor.methods({
         userId: currentUser && currentUser._id,
         author: currentUser && currentUser.emails[0].address,
         title: title,
-        Url: url
+        url: url
       };
 
     Posts.insert(post);
