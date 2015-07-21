@@ -1,9 +1,5 @@
 
 Posts = new Mongo.Collection('posts');
-Posts.allow({
-  update: function(userId, post) { return true; },
-  remove: function(userId, post) { return userId; },
-});
 
 var blackList = [
   'https://angular.io/',
