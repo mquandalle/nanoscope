@@ -5,14 +5,29 @@ Posts.allow({
   remove: function(userId, post) { return userId; },
 });
 
+var blackList = [
+  'https://angular.io/',
+  'https://symfony.com/',
+];
+
+var isValidUrl = function(url) {
+  var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+  return urlRegex.test(url);
+};
+
+var isBlackListed = function(url) {
+  return _.any(blackList, function(blackListedUrl) {
+    return (new RegExp('^' + blackListedUrl).test(url));
+  });
+};
+
 Meteor.methods({
   post: function(title, url) {
-    check(url, Match.Where(function (x) {
-      check(x, String);
-      var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
-      return urlRegex.test(x);
-    }));
     check(title, String);
+    check(url, Match.Where(function (url) {
+      check(url, String);
+      return isValidUrl(url) && ! isBlackListed(url);
+    }));
     var A = Meteor.user();
     var post = {
         userId: A && A._id,
@@ -65,7 +80,7 @@ if (Meteor.isClient) {
         title: $(e.target).find('[name=title]').val(),
       };
 
-      Meteor.call('post', post.url, post.title);
+      Meteor.call('post', post.title, post.url);
     }
   });
 
