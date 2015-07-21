@@ -1,8 +1,8 @@
 
 Posts = new Mongo.Collection('posts');
 Posts.allow({
-  update: function(userId, post) {return true;},
-  remove: function(userId, post) { return userId},
+  update: function(userId, post) { return true; },
+  remove: function(userId, post) { return userId; },
 });
 
 Meteor.methods({
@@ -56,7 +56,7 @@ if (Meteor.isClient) {
       var post = {
         url: $(e.target).find('[name=url]').val(),
         title: $(e.target).find('[name=title]').val(),
-      }
+      };
 
       Meteor.call('post', post.url, post.title);
     }
