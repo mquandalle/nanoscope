@@ -24,10 +24,11 @@ Meteor.methods({
       check(url, String);
       return isValidUrl(url) && ! isBlackListed(url);
     }));
-    var A = Meteor.user();
+    var currentUser = Meteor.user();
+    if (!currentUser) return false;
     var post = {
-        userId: A && A._id,
-        author: A && A.emails[0].address,
+        userId: currentUser && currentUser._id,
+        author: currentUser && currentUser.emails[0].address,
         title: title,
         Url: url
       };
