@@ -7,6 +7,12 @@ Posts.allow({
 
 Meteor.methods({
   post: function(title, url) {
+    check(url, Match.Where(function (x) {
+      check(x, String);
+      var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+      return urlRegex.test(x);
+    }));
+    check(title, String);
     var A = Meteor.user();
     var post = {
         userId: A && A._id,
@@ -18,6 +24,7 @@ Meteor.methods({
     Posts.insert(post);
   },
   upvote: function(postId) {
+    check(postId, String);
     var user = Meteor.user();
     if (!user) return false;
 
