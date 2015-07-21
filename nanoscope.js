@@ -16,8 +16,8 @@ Meteor.methods({
       };
 
     Posts.insert(post);
-        },
-upvote: function(postId) {
+  },
+  upvote: function(postId) {
     var user = Meteor.user();
     if (!user) return false;
 
@@ -32,16 +32,16 @@ upvote: function(postId) {
 });
 
 if (Meteor.isClient) {
-Template.postItem.helpers({
-  upvotedClass: function() {
-    var userId = Meteor.userId();
-    if (!_.include(this.upvoters, userId)) {
-      return 'btn-primary upvotable';
-    } else {
-      return 'disabled';
-    }
-  },
-});
+  Template.postItem.helpers({
+    upvotedClass: function() {
+      var userId = Meteor.userId();
+      if (!_.include(this.upvoters, userId)) {
+        return 'btn-primary upvotable';
+      } else {
+        return 'disabled';
+      }
+    },
+  });
 
   Template.posts.helpers({
     posts: function () {
@@ -62,11 +62,10 @@ Template.postItem.helpers({
     }
   });
 
-Template.postItem.events({
-  'click .upvotable': function(e) {
-    e.preventDefault();
-    Meteor.call('upvote', this._id);
-  }
-});
-
+  Template.postItem.events({
+    'click .upvotable': function(e) {
+      e.preventDefault();
+      Meteor.call('upvote', this._id);
+    }
+  });
 }
